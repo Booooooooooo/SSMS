@@ -4,8 +4,6 @@ public class Student {
     private String name;
     private String sex;
     private String department;
-    private String homeTown;
-    private String tel;
 
     public int getId() {
         return id;
@@ -47,19 +45,4 @@ public class Student {
         this.department = department;
     }
 
-    public String getHomeTown() {
-        return homeTown;
-    }
-
-    public void setHomeTown(String homeTown) {
-        this.homeTown = homeTown;
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
 }

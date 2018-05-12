@@ -2,6 +2,15 @@ public class Score {
     private double score;
     private String sno;//某一学生
     private String cno;//某一课程
+    private boolean flag;
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 
     public double getScore() {
         return score;
