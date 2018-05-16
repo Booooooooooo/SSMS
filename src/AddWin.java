@@ -1,83 +1,88 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
-public class AddWin extends JFrame {
+public class AddWin extends JDialog implements ActionListener {
 
-    private JLabel nameLabel;
-    private JLabel snoLabel;
-    private JLabel deptLabel;
-    private JLabel sexLabel;
-    private JTextField nameText;
-    private JTextField snoText;
-    private JTextField deptText;
-    private JTextField sexText;
+    private JLabel Label1;
+    private JLabel Label2;
+    private JLabel Label3;
+    private JLabel Label4;
+    private JTextField Text1;
+    private JTextField Text2;
+    private JTextField Text3;
+    private JTextField Text4;
     private JButton confirmBtn;
     private JPanel labelPanel;
     private JPanel textPanel;
     private int index;
 
-    public AddWin(int index){
+    public AddWin(int index, Frame owner, boolean modal){
+        super(owner, "添加信息", modal);
         setVisible(true);
         Dimension screenSize = getToolkit().getScreenSize();
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
-        setTitle("添加信息");
         setSize(500, 200);
 
         int width = getWidth() / 2;
         Font font = new Font("Dialog", 0, 20);
         switch (index){
             case 0:
-                nameLabel = new JLabel(" 姓名");
-                snoLabel = new JLabel(" 学号");
-                sexLabel = new JLabel(" 性别");
-                deptLabel = new JLabel(" 院系");break;
+                Label2 = new JLabel(" 姓名");
+                Label1 = new JLabel(" 学号");
+                Label3 = new JLabel(" 性别");
+                Label4 = new JLabel(" 院系");break;
             case 1:
-                nameLabel = new JLabel(" 课程号");
-                snoLabel = new JLabel(" 课程名");
-                sexLabel = new JLabel(" 学分");
-                deptLabel = new JLabel(" 授课老师");break;
+                Label1 = new JLabel(" 课程号");
+                Label2 = new JLabel(" 课程名");
+                Label3 = new JLabel(" 学分");
+                Label4 = new JLabel(" 授课老师");break;
             case 2:
-                nameLabel = new JLabel(" 课程号");
-                snoLabel = new JLabel("  学号");
-                sexLabel = new JLabel(" 分数");
-                deptLabel = new JLabel(" 重修标记");
+                Label3 = new JLabel(" 课程号");
+                Label2 = new JLabel("  学号");
+                Label1 = new JLabel(" 分数");
+                Label4 = new JLabel(" 重修标记");
         }
-
-        nameLabel.setFont(font);
-        snoLabel.setFont(font);
-        sexLabel.setFont(font);
-        deptLabel.setFont(font);
-        nameLabel.setSize(width, 30);
-        snoLabel.setSize(width, 30);
-        sexLabel.setSize(width, 30);
-        deptLabel.setSize(width, 30);
+        Label1.setFont(font);
+        Label2.setFont(font);
+        Label3.setFont(font);
+        Label4.setFont(font);
+        Label1.setSize(width, 30);
+        Label2.setSize(width, 30);
+        Label3.setSize(width, 30);
+        Label4.setSize(width, 30);
         labelPanel = new JPanel();
         labelPanel.setLayout(new BoxLayout(labelPanel, BoxLayout.Y_AXIS));
-        labelPanel.add(nameLabel);
-        labelPanel.add(snoLabel);
-        labelPanel.add(sexLabel);
-        labelPanel.add(deptLabel);
+        labelPanel.add(Label1);
+        labelPanel.add(Label2);
+        labelPanel.add(Label3);
+        labelPanel.add(Label4);
 
 
-        nameText = new JTextField(width);
-        snoText = new JTextField(width);
-        sexText = new JTextField(width);
-        deptText = new JTextField(width);
-        nameText.setSize(width, 30);
-        snoText.setSize(width, 30);
-        sexText.setSize(width, 30);
-        deptText.setSize(width, 30);
+        Text1 = new JTextField(width);
+        Text2 = new JTextField(width);
+        Text3 = new JTextField(width);
+        Text4 = new JTextField(width);
+        Text1.setSize(width, 30);
+        Text2.setSize(width, 30);
+        Text3.setSize(width, 30);
+        Text4.setSize(width, 30);
         int height = 2;
         textPanel = new JPanel();
         textPanel.setLayout(new GridLayout(4, 1));
         textPanel.setSize(getWidth(), 120);
-        textPanel.add(nameText);
+        textPanel.add(Text1);
         //textPanel.add(Box.createVerticalStrut(height));
-        textPanel.add(snoText);
+        textPanel.add(Text2);
         //textPanel.add(Box.createVerticalStrut(height));
-        textPanel.add(sexText);
+        textPanel.add(Text3);
         //textPanel.add(Box.createVerticalStrut(height));
-        textPanel.add(deptText);
+        textPanel.add(Text4);
 
         JPanel panelu = new JPanel();
         panelu.setLayout(new BorderLayout());
@@ -96,5 +101,53 @@ public class AddWin extends JFrame {
         //panel.setSize(getWidth(), 160);
 
         update(getGraphics());
+    }
+
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource() == confirmBtn){
+            Connection ct = null;
+            PreparedStatement pstmt = null;
+            ResultSet rs = null;
+
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+                System.out.println("加载成功");
+
+                String url = "jdbc:mysql://localhost/studentsystem";
+                String user = "root";
+                String passwd = "wyb980401";
+                ct = DriverManager.getConnection(url, user, passwd);
+
+                String strsql = "insert into student values(?, ?, ?, ?)";
+                pstmt = ct.prepareStatement(strsql);
+
+                pstmt.setString(1, Text1.getText());
+                pstmt.setString(2, Text2.getText());
+                pstmt.setString(3, Text3.getText());
+                pstmt.setString(4, Text1.getText());
+
+                pstmt.executeUpdate();
+                this.dispose();
+            }catch (Exception arg1){
+                arg1.printStackTrace();
+            }finally{
+                try{
+                    if(rs!=null){
+                        rs.close();
+                        rs = null;
+                    }
+                    if(pstmt != null){
+                        pstmt.close();
+                        pstmt = null;
+                    }
+                    if(ct != null){
+                        ct.close();
+                        ct = null;
+                    }
+                }catch (Exception arg2){
+                    arg2.printStackTrace();
+                }
+            }
+        }
     }
 }

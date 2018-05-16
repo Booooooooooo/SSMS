@@ -1,16 +1,16 @@
 public class Course {
-    private int id;
+
     private String cno;//课程号
     private String name;
-    private String mark;//学分
+    private double mark;//学分
     private String teacher;
 
-    public int getId() {
-        return id;
+    public double getMark() {
+        return mark;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMark(double mark) {
+        this.mark = mark;
     }
 
     public String getCno() {
@@ -29,13 +29,6 @@ public class Course {
         this.name = name;
     }
 
-    public String getMark() {
-        return mark;
-    }
-
-    public void setMark(String mark) {
-        this.mark = mark;
-    }
 
     public String getTeacher() {
         return teacher;

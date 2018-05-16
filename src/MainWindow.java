@@ -53,9 +53,12 @@ public class MainWindow extends JFrame implements ActionListener{
         String[][] rowData = {{}, {}, {}};
         table = new JTable();
         DefaultTableModel model = new DefaultTableModel(rowData, col);
-        DefaultTableModel modelS = new DefaultTableModel(rowData, colStudent);
-        DefaultTableModel modelSC = new DefaultTableModel(rowData, colScore);
-        DefaultTableModel modelC = new DefaultTableModel(rowData, colCourse);
+        StuModel stuModel = new StuModel();
+        //DefaultTableModel modelS = new DefaultTableModel(rowData, colStudent);
+        ScoModel scoModel = new ScoModel();
+        //DefaultTableModel modelSC = new DefaultTableModel(rowData, colScore);
+        CourModel courModel = new CourModel();
+        //DefaultTableModel modelC = new DefaultTableModel(rowData, colCourse);
         table.setModel(model);
         tableList.addActionListener(new ActionListener() {
             @Override
@@ -63,11 +66,11 @@ public class MainWindow extends JFrame implements ActionListener{
                 index = tableList.getSelectedIndex();
                 switch(index){
                     case 0:
-                        table.setModel(modelS);break;
+                        table.setModel(stuModel);break;
                     case 1:
-                        table.setModel(modelC);col = colCourse;break;
+                        table.setModel(courModel);col = colCourse;break;
                     case 2:
-                        table.setModel(modelSC);break;
+                        table.setModel(scoModel);break;
                 }
 
                 update(getGraphics());
@@ -125,9 +128,11 @@ public class MainWindow extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         Object obj = e.getSource();
         if(obj == addButton){
-            new AddWin(index);
+            new AddWin(index, this, true);
+            StuModel stuModel = new StuModel();
+            table.setModel(stuModel);
         }else if(obj == deleteButton){
-            new DeleteWin(index);
+            //new DeleteWin(index);
         }else if(obj == modifyButton){
             //new modifyWin();
         }else{
