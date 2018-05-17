@@ -29,6 +29,7 @@ public class MainWindow extends JFrame implements ActionListener{
 
     private AddWin addWin;
     private ModifyWin modifyWin;
+    private DelWin delWin;
     private AbstractTableModel m;
     private Statement stat = null;
     private PreparedStatement ps;
@@ -149,59 +150,27 @@ public class MainWindow extends JFrame implements ActionListener{
             //table.updateUI();
             //update(getGraphics());
         }else if(obj == deleteButton){
-            String tableName = "";
-            String id = "";
             int rowNum = table.getSelectedRow();
-            //System.out.println(rowNum);
             if(rowNum == -1){
                 JOptionPane.showMessageDialog(this, "请选中一行");
                 return;
             }
             switch (index){
                 case 0:
-                    id = stuModel.getValueAt(rowNum, 0).toString();
-                    //System.out.println("Id: " + id);
-                    tableName = "student";break;
-                case 1:id = courModel.getValueAt(rowNum, 0).toString();
-                    tableName = "course";break;
-                case 2:id = scoModel.getValueAt(rowNum, 0).toString();
-                    tableName = "score";break;
-            }
-            try{
-                Class.forName("com.mysql.jdbc.Driver");
-                String url = "jdbc:mysql://localhost/studentsystem";
-                String user = "root";
-                String passwd = "wyb980401";
-
-                ct = DriverManager.getConnection(url, user, passwd);
-                System.out.println("连接成功");
-                ps = ct.prepareStatement("delete from `" + tableName + "` where id = " + id);
-                ps.executeUpdate();
-            }catch(Exception e){
-                e.printStackTrace();
-            }finally{
-                try{
-                    if(rs != null){
-                        rs.close();
-                        rs = null;
-                    }
-                    if(ps != null){
-                        ps.close();
-                        ps = null;
-                    }
-                    if(ct != null){
-                        ct.close();
-                        ct = null;
-                    }
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-
-            switch (index){
-                case 0:stuModel = new StuModel();table.setModel(stuModel);break;
-                case 1:courModel = new CourModel();table.setModel(courModel);break;
-                case 2:scoModel = new ScoModel();table.setModel(scoModel);break;
+                    delWin = new DelWin(this, true, stuModel, rowNum, index);
+                    stuModel = new StuModel();
+                    table.setModel(stuModel);
+                    break;
+                case 1:
+                    delWin = new DelWin(this, true, courModel, rowNum, index);
+                    courModel = new CourModel();
+                    table.setModel(courModel);
+                    break;
+                case 2:
+                    delWin = new DelWin(this, true, scoModel, rowNum, index);
+                    scoModel = new ScoModel();
+                    table.setModel(scoModel);
+                    break;
             }
 
         }else if(obj == modifyButton){

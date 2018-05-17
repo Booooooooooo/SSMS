@@ -24,6 +24,7 @@ public class ModifyWin extends JDialog implements ActionListener {
     private JPanel panel3;
     private int index;
     private String id;
+    private Font font = new Font("Dialog", Font.PLAIN, 15);
 
     public ModifyWin(Frame owner, boolean modal, StuModel model, int rowNum, int index){
         super(owner, "修改学生表", modal);
@@ -33,6 +34,10 @@ public class ModifyWin extends JDialog implements ActionListener {
         label2 = new JLabel("姓名");
         label3 = new JLabel("性别");
         label4 = new JLabel("院系");
+        label1.setFont(font);
+        label2.setFont(font);
+        label3.setFont(font);
+        label4.setFont(font);
         text1 = new JTextField(10);
         text1.setText(model.getValueAt(rowNum, 1).toString());
         text2 = new JTextField(10);
@@ -41,9 +46,16 @@ public class ModifyWin extends JDialog implements ActionListener {
         text3.setText(model.getValueAt(rowNum, 3).toString());
         text4 = new JTextField(10);
         text4.setText(model.getValueAt(rowNum, 4).toString());
+        text1.setFont(font);
+        text2.setFont(font);
+        text3.setFont(font);
+        text4.setFont(font);
         confirmBtn = new JButton("确认");
         cancelBtn = new JButton("取消");
         confirmBtn.addActionListener(this);
+        cancelBtn.addActionListener(this);
+        confirmBtn.setFont(font);
+        cancelBtn.setFont(font);
 
         panel1 = new JPanel();
         panel2 = new JPanel();
@@ -64,9 +76,9 @@ public class ModifyWin extends JDialog implements ActionListener {
         add(panel2, BorderLayout.CENTER);
         add(panel3, BorderLayout.SOUTH);
         setSize(300, 200);
-        setVisible(true);
         Dimension screenSize = getToolkit().getScreenSize();
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
+        setVisible(true);
 
     }
     public ModifyWin(Frame owner, boolean modal, CourModel model, int rowNum, int index){
@@ -77,6 +89,10 @@ public class ModifyWin extends JDialog implements ActionListener {
         label2 = new JLabel("课程名");
         label3 = new JLabel("学分");
         label4 = new JLabel("授课老师");
+        label1.setFont(font);
+        label2.setFont(font);
+        label3.setFont(font);
+        label4.setFont(font);
         text1 = new JTextField(10);
         text1.setText(model.getValueAt(rowNum, 1).toString());
         text2 = new JTextField(10);
@@ -85,9 +101,16 @@ public class ModifyWin extends JDialog implements ActionListener {
         text3.setText(model.getValueAt(rowNum, 3).toString());
         text4 = new JTextField(10);
         text4.setText(model.getValueAt(rowNum, 4).toString());
+        text1.setFont(font);
+        text2.setFont(font);
+        text3.setFont(font);
+        text4.setFont(font);
         confirmBtn = new JButton("确认");
         cancelBtn = new JButton("取消");
         confirmBtn.addActionListener(this);
+        cancelBtn.addActionListener(this);
+        confirmBtn.setFont(font);
+        cancelBtn.setFont(font);
 
         panel1 = new JPanel();
         panel2 = new JPanel();
@@ -108,9 +131,9 @@ public class ModifyWin extends JDialog implements ActionListener {
         add(panel2, BorderLayout.CENTER);
         add(panel3, BorderLayout.SOUTH);
         setSize(300, 200);
-        setVisible(true);
         Dimension screenSize = getToolkit().getScreenSize();
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
+        setVisible(true);
 
     }
     public ModifyWin(Frame owner, boolean modal, ScoModel model, int rowNum, int index){
@@ -121,6 +144,10 @@ public class ModifyWin extends JDialog implements ActionListener {
         label2 = new JLabel("学号");
         label3 = new JLabel("课程号");
         label4 = new JLabel("重修标记");
+        label1.setFont(font);
+        label2.setFont(font);
+        label3.setFont(font);
+        label4.setFont(font);
         text1 = new JTextField(10);
         text1.setText(model.getValueAt(rowNum, 1).toString());
         text2 = new JTextField(10);
@@ -129,9 +156,16 @@ public class ModifyWin extends JDialog implements ActionListener {
         text3.setText(model.getValueAt(rowNum, 3).toString());
         text4 = new JTextField(10);
         text4.setText(model.getValueAt(rowNum, 4).toString());
+        text1.setFont(font);
+        text2.setFont(font);
+        text3.setFont(font);
+        text4.setFont(font);
         confirmBtn = new JButton("确认");
         cancelBtn = new JButton("取消");
         confirmBtn.addActionListener(this);
+        cancelBtn.addActionListener(this);
+        confirmBtn.setFont(font);
+        cancelBtn.setFont(font);
 
         panel1 = new JPanel();
         panel2 = new JPanel();
@@ -152,9 +186,9 @@ public class ModifyWin extends JDialog implements ActionListener {
         add(panel2, BorderLayout.CENTER);
         add(panel3, BorderLayout.SOUTH);
         setSize(300, 200);
-        setVisible(true);
         Dimension screenSize = getToolkit().getScreenSize();
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
+        setVisible(true);
     }
 
     public void actionPerformed(ActionEvent event){
@@ -223,6 +257,9 @@ public class ModifyWin extends JDialog implements ActionListener {
                     arg2.printStackTrace();
                 }
             }
+        }
+        else if(event.getSource() == cancelBtn){
+            this.dispose();
         }
     }
 }
