@@ -18,6 +18,8 @@ public class MainWindow extends JFrame implements ActionListener{
     private Font headFont;
     private int index;
     private StuModel stuModel;
+    private ScoModel scoModel;
+    private CourModel courModel;
 
     public JTable table;
     private String[] colStudent = {"学号", "姓名", "性别", "院系" };
@@ -63,14 +65,9 @@ public class MainWindow extends JFrame implements ActionListener{
 
         String[][] rowData = {{}, {}, {}};
         table = new JTable();
-        //model = new DefaultTableModel(rowData, col);
         stuModel = new StuModel();
-        //DefaultTableModel modelS = new DefaultTableModel(rowData, colStudent);
-        ScoModel scoModel = new ScoModel();
-        //DefaultTableModel modelSC = new DefaultTableModel(rowData, colScore);
-        CourModel courModel = new CourModel();
-        //DefaultTableModel modelC = new DefaultTableModel(rowData, colCourse);
-        //table.setModel(model);
+        scoModel = new ScoModel();
+        courModel = new CourModel();
         tableList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -162,13 +159,13 @@ public class MainWindow extends JFrame implements ActionListener{
             switch (index){
                 case 0:
                     id = stuModel.getValueAt(rowNum, 0).toString();
-                    System.out.println("Id: " + id);
+                    //System.out.println("Id: " + id);
                     tableName = "student";break;
-                case 1:m = new CourModel();tableName = "course";break;
-                case 2:m = new ScoModel();tableName = "score";break;
+                case 1:id = courModel.getValueAt(rowNum, 0).toString();
+                    tableName = "course";break;
+                case 2:id = scoModel.getValueAt(rowNum, 0).toString();
+                    tableName = "score";break;
             }
-
-
             try{
                 Class.forName("com.mysql.jdbc.Driver");
                 String url = "jdbc:mysql://localhost/studentsystem";
@@ -178,7 +175,6 @@ public class MainWindow extends JFrame implements ActionListener{
                 ct = DriverManager.getConnection(url, user, passwd);
                 System.out.println("连接成功");
                 ps = ct.prepareStatement("delete from `" + tableName + "` where id = " + id);
-                //ps.setString(1,id);
                 ps.executeUpdate();
             }catch(Exception e){
                 e.printStackTrace();
@@ -203,14 +199,14 @@ public class MainWindow extends JFrame implements ActionListener{
 
             switch (index){
                 case 0:stuModel = new StuModel();table.setModel(stuModel);break;
-                case 1:m = new CourModel();break;
-                case 2:m = new ScoModel();break;
+                case 1:courModel = new CourModel();table.setModel(courModel);break;
+                case 2:scoModel = new ScoModel();table.setModel(scoModel);break;
             }
 
         }else if(obj == modifyButton){
             //new modifyWin();
         }else{
-            //new SearchWin();
+
         }
     }
     public static void main(String[] args){

@@ -21,7 +21,7 @@ public class StuModel extends AbstractTableModel {
         }
 
         columnNames = new Vector();
-        columnNames.add("ID");
+        columnNames.add("");
         columnNames.add("学号");
         columnNames.add("姓名");
         columnNames.add("性别");

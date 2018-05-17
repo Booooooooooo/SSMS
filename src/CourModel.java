@@ -18,6 +18,7 @@ public class CourModel extends AbstractTableModel {
         }
 
         columnNames = new Vector();
+        columnNames.add("");
         columnNames.add("课程号");
         columnNames.add("课程名");
         columnNames.add("学分");
@@ -37,6 +38,7 @@ public class CourModel extends AbstractTableModel {
 
             while(rs.next()){
                 Vector hang = new Vector();
+                hang.add(rs.getInt(5));
                 hang.add(rs.getString(1));
                 hang.add(rs.getString(2));
                 hang.add(rs.getDouble(3));

@@ -69,8 +69,8 @@
       <file leaf-file-name="MainWindow.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MainWindow.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="180" column="29" lean-forward="true" selection-start-line="180" selection-start-column="29" selection-end-line="180" selection-end-column="29" />
+            <state relative-caret-position="62">
+              <caret line="202" column="72" selection-start-line="202" selection-start-column="72" selection-end-line="202" selection-end-column="72" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -165,7 +165,7 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="949" />
     <option name="width" value="980" />
     <option name="height" value="1091" />
@@ -321,15 +321,15 @@
       <workItem from="1526429969745" duration="928000" />
       <workItem from="1526446873385" duration="5833000" />
       <workItem from="1526466871832" duration="5393000" />
-      <workItem from="1526530881190" duration="5944000" />
+      <workItem from="1526530881190" duration="6274000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43098000" />
+    <option name="totallyTimeSpent" value="43428000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="633" y="0" width="653" height="727" extended-state="0" />
+    <frame x="-7" y="-7" width="1295" height="735" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="4" />
@@ -341,12 +341,12 @@
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.33117932" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32695374" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Designer" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17527387" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.08743169" />
       <window_info anchor="right" id="Database" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
@@ -853,8 +853,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MainWindow.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="180" column="29" lean-forward="true" selection-start-line="180" selection-start-column="29" selection-end-line="180" selection-end-column="29" />
+        <state relative-caret-position="62">
+          <caret line="202" column="72" selection-start-line="202" selection-start-column="72" selection-end-line="202" selection-end-column="72" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

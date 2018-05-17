@@ -18,6 +18,7 @@ public class ScoModel extends AbstractTableModel {
         }
 
         columnNames = new Vector();
+        columnNames.add("");
         columnNames.add("成绩");
         columnNames.add("学生姓名");
         columnNames.add("课程名");
@@ -37,6 +38,7 @@ public class ScoModel extends AbstractTableModel {
 
             while(rs.next()){
                 Vector hang = new Vector();
+                hang.add(rs.getInt(5));
                 hang.add(rs.getDouble(1));
                 hang.add(rs.getString(2));
                 hang.add(rs.getString(3));
