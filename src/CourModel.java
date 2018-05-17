@@ -14,7 +14,7 @@ public class CourModel extends AbstractTableModel {
 
     public void init(String sql){
         if(sql.equals("")){
-            sql = "select * from course";
+            sql = "select * from course order by cno";
         }
 
         columnNames = new Vector();

@@ -17,7 +17,7 @@ public class StuModel extends AbstractTableModel {
 
     public void init(String sql){
         if(sql.equals("")){
-            sql = "select * from student";
+            sql = "select * from student order by sno";
         }
 
         columnNames = new Vector();

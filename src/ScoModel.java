@@ -14,14 +14,14 @@ public class ScoModel extends AbstractTableModel {
 
     public void init(String sql){
         if(sql.equals("")){
-            sql = "select * from score";
+            sql = "select * from score order by cno";
         }
 
         columnNames = new Vector();
         columnNames.add("");
         columnNames.add("成绩");
         columnNames.add("学生姓名");
-        columnNames.add("课程名");
+        columnNames.add("课程号");
         columnNames.add("重修标记");
 
         rowData = new Vector();

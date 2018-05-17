@@ -28,6 +28,7 @@ public class MainWindow extends JFrame implements ActionListener{
     private String[] col;
 
     private AddWin addWin;
+    private ModifyWin modifyWin;
     private AbstractTableModel m;
     private Statement stat = null;
     private PreparedStatement ps;
@@ -204,9 +205,28 @@ public class MainWindow extends JFrame implements ActionListener{
             }
 
         }else if(obj == modifyButton){
-            //new modifyWin();
-        }else{
+            int rowNum = table.getSelectedRow();
+            if(rowNum == -1){
+                JOptionPane.showMessageDialog(this, "请选择一行");
+                return;
+            }
+            switch(index){
+                case 0:
+                    modifyWin = new ModifyWin(this, true, stuModel, rowNum, index);
+                    stuModel = new StuModel();
+                    table.setModel(stuModel);break;
+                case 1:
+                    modifyWin = new ModifyWin(this, true, courModel, rowNum, index);
+                    courModel = new CourModel();
+                    table.setModel(courModel);break;
+                case 2:
+                    modifyWin = new ModifyWin(this, true, scoModel, rowNum,index);
+                    scoModel = new ScoModel();
+                    table.setModel(scoModel);break;
+            }
 
+        }else{
+            //search
         }
     }
     public static void main(String[] args){
