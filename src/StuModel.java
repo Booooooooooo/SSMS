@@ -21,6 +21,7 @@ public class StuModel extends AbstractTableModel {
         }
 
         columnNames = new Vector();
+        columnNames.add("ID");
         columnNames.add("学号");
         columnNames.add("姓名");
         columnNames.add("性别");
@@ -40,11 +41,14 @@ public class StuModel extends AbstractTableModel {
 
             while(rs.next()){
                 Vector hang = new Vector();
+                hang.add(rs.getString(5));
                 hang.add(rs.getString(1));
                 hang.add(rs.getString(2));
                 hang.add(rs.getString(3));
                 hang.add(rs.getString(4));
+
                 rowData.add(hang);
+
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -89,6 +93,7 @@ public class StuModel extends AbstractTableModel {
     }
 
     public Object getValueAt(int row, int column){
+        //System.out.println(((Vector)this.rowData.get(row)).get(0));
         return ((Vector)(this.rowData.get(row))).get(column);
     }
 

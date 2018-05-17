@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class AddWin extends JDialog implements ActionListener {
+public class AddWin extends JFrame implements ActionListener {
 
     private JLabel Label1;
     private JLabel Label2;
@@ -22,9 +22,10 @@ public class AddWin extends JDialog implements ActionListener {
     private JPanel textPanel;
     private int index;
 
-    public AddWin(int index, Frame owner, boolean modal){
-        super(owner, "添加信息", modal);
-        setVisible(true);
+    public AddWin(int index){
+        //super(owner, "添加信息", modal);
+        super("添加信息");
+        setVisible(false);
         Dimension screenSize = getToolkit().getScreenSize();
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
         setSize(500, 200);
@@ -93,6 +94,7 @@ public class AddWin extends JDialog implements ActionListener {
         confirmBtn = new JButton("确认添加");
         confirmBtn.setFont(font);
         confirmBtn.setSize(getWidth(), 40);
+        confirmBtn.addActionListener(this);
         JPanel panel = new JPanel();
         setContentPane(panel);
         panel.setLayout(new BorderLayout());
@@ -124,8 +126,9 @@ public class AddWin extends JDialog implements ActionListener {
                 pstmt.setString(1, Text1.getText());
                 pstmt.setString(2, Text2.getText());
                 pstmt.setString(3, Text3.getText());
-                pstmt.setString(4, Text1.getText());
+                pstmt.setString(4, Text4.getText());
 
+                System.out.println("添加成功");
                 pstmt.executeUpdate();
                 this.dispose();
             }catch (Exception arg1){

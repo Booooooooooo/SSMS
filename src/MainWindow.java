@@ -1,8 +1,10 @@
 import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class MainWindow extends JFrame implements ActionListener{
     private List tableList;
@@ -15,15 +17,24 @@ public class MainWindow extends JFrame implements ActionListener{
     private JPanel panel;
     private Font headFont;
     private int index;
+    private StuModel stuModel;
 
-    private JTable table;
+    public JTable table;
     private String[] colStudent = {"学号", "姓名", "性别", "院系" };
     private String[] colScore = {"课程号", "学生学号", "分数", "重修标记"};
     private String[] colCourse = {"课程号", "课程名", "学分", "教师"};
     private String[] col;
+
+    private AddWin addWin;
+    private AbstractTableModel m;
+    private Statement stat = null;
+    private PreparedStatement ps;
+    private Connection ct = null;
+    private ResultSet rs = null;
     //private JPanel listPanel;
     //private JPanel displayPanel;
     //private JPanel buttonPanel;
+    //String id;
 
     public MainWindow()
     {
@@ -52,14 +63,14 @@ public class MainWindow extends JFrame implements ActionListener{
 
         String[][] rowData = {{}, {}, {}};
         table = new JTable();
-        DefaultTableModel model = new DefaultTableModel(rowData, col);
-        StuModel stuModel = new StuModel();
+        //model = new DefaultTableModel(rowData, col);
+        stuModel = new StuModel();
         //DefaultTableModel modelS = new DefaultTableModel(rowData, colStudent);
         ScoModel scoModel = new ScoModel();
         //DefaultTableModel modelSC = new DefaultTableModel(rowData, colScore);
         CourModel courModel = new CourModel();
         //DefaultTableModel modelC = new DefaultTableModel(rowData, colCourse);
-        table.setModel(model);
+        //table.setModel(model);
         tableList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -125,14 +136,77 @@ public class MainWindow extends JFrame implements ActionListener{
 
     }
 
-    public void actionPerformed(ActionEvent e){
-        Object obj = e.getSource();
+    public void actionPerformed(ActionEvent event){
+        Object obj = event.getSource();
+        addWin = new AddWin(index);
         if(obj == addButton){
-            new AddWin(index, this, true);
-            StuModel stuModel = new StuModel();
-            table.setModel(stuModel);
+            addWin.setVisible(true);
+            //addWin = new AddWin(index);
+            //addWin.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            //stuModel.fireTableDataChanged();
+            //table.setModel(stuModel);
+            StuModel mo= new StuModel();
+            table.setModel(mo);//下一次点击按钮时才会更新表单
+            //table.validate();
+            //table.updateUI();
+            //update(getGraphics());
         }else if(obj == deleteButton){
-            //new DeleteWin(index);
+            String tableName = "";
+            String id = "";
+            int rowNum = table.getSelectedRow();
+            //System.out.println(rowNum);
+            if(rowNum == -1){
+                JOptionPane.showMessageDialog(this, "请选中一行");
+                return;
+            }
+            switch (index){
+                case 0:
+                    id = stuModel.getValueAt(rowNum, 0).toString();
+                    System.out.println("Id: " + id);
+                    tableName = "student";break;
+                case 1:m = new CourModel();tableName = "course";break;
+                case 2:m = new ScoModel();tableName = "score";break;
+            }
+
+
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+                String url = "jdbc:mysql://localhost/studentsystem";
+                String user = "root";
+                String passwd = "wyb980401";
+
+                ct = DriverManager.getConnection(url, user, passwd);
+                System.out.println("连接成功");
+                ps = ct.prepareStatement("delete from `" + tableName + "` where id = " + id);
+                //ps.setString(1,id);
+                ps.executeUpdate();
+            }catch(Exception e){
+                e.printStackTrace();
+            }finally{
+                try{
+                    if(rs != null){
+                        rs.close();
+                        rs = null;
+                    }
+                    if(ps != null){
+                        ps.close();
+                        ps = null;
+                    }
+                    if(ct != null){
+                        ct.close();
+                        ct = null;
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            switch (index){
+                case 0:stuModel = new StuModel();table.setModel(stuModel);break;
+                case 1:m = new CourModel();break;
+                case 2:m = new ScoModel();break;
+            }
+
         }else if(obj == modifyButton){
             //new modifyWin();
         }else{

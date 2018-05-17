@@ -4,6 +4,15 @@ public class Course {
     private String name;
     private double mark;//学分
     private String teacher;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public double getMark() {
         return mark;

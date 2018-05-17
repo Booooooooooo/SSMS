@@ -1,8 +1,17 @@
 public class Score {
+    private int id;
     private double score;
     private String sno;//某一学生
     private String cno;//某一课程
     private boolean flag;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public boolean isFlag() {
         return flag;
