@@ -15,13 +15,18 @@ public class StuModel extends AbstractTableModel {
     Connection ct = null;
     ResultSet rs = null;
 
+    //private int maxId = -1;
+
+    //public int getMax(){
+    //    return maxId;
+    //}
     public void init(String sql){
         if(sql.equals("")){
             sql = "select * from student order by sno";
         }
 
         columnNames = new Vector();
-        columnNames.add("");
+        //columnNames.add("");
         columnNames.add("学号");
         columnNames.add("姓名");
         columnNames.add("性别");
@@ -40,8 +45,9 @@ public class StuModel extends AbstractTableModel {
             rs = stat.executeQuery(sql);
 
             while(rs.next()){
+                //maxId = Math.max(maxId, rs.getInt(5));
                 Vector hang = new Vector();
-                hang.add(rs.getString(5));
+                //hang.add(rs.getInt(5));
                 hang.add(rs.getString(1));
                 hang.add(rs.getString(2));
                 hang.add(rs.getString(3));

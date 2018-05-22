@@ -12,7 +12,8 @@ public class DelWin extends JDialog implements ActionListener {
     private int index;
     private JButton button;
     private JButton cancelBtn;
-    private String id;
+    private String temp1;
+    private String temp2;
     private JPanel panel1;
     private JPanel panel2;
     private Font font = new Font("Dialog", Font.PLAIN, 20);
@@ -32,11 +33,11 @@ public class DelWin extends JDialog implements ActionListener {
         panel1.setLayout(new GridLayout(1, 1));
         panel2 = new JPanel();
 
-        id = model.getValueAt(rowNum, 0).toString();
-        String a = model.getValueAt(rowNum, 1).toString();
-        String b = model.getValueAt(rowNum, 2).toString();
-        String c = model.getValueAt(rowNum, 3).toString();
-        String d = model.getValueAt(rowNum, 4).toString();
+        temp1 = model.getValueAt(rowNum, 0).toString();
+        String a = model.getValueAt(rowNum, 0).toString();
+        String b = model.getValueAt(rowNum, 1).toString();
+        String c = model.getValueAt(rowNum, 2).toString();
+        String d = model.getValueAt(rowNum, 3).toString();
         display.setText("   确认删除 " + a + " " + b + " " + c + " " + d + "?");
         panel2.add(button);
         panel2.add(cancelBtn);
@@ -64,11 +65,11 @@ public class DelWin extends JDialog implements ActionListener {
         panel1.setLayout(new GridLayout(1, 1));
         panel2 = new JPanel();
 
-        id = model.getValueAt(rowNum, 0).toString();
-        String a = model.getValueAt(rowNum, 1).toString();
-        String b = model.getValueAt(rowNum, 2).toString();
-        String c = model.getValueAt(rowNum, 3).toString();
-        String d = model.getValueAt(rowNum, 4).toString();
+        temp1 = model.getValueAt(rowNum, 0).toString();
+        String a = model.getValueAt(rowNum, 0).toString();
+        String b = model.getValueAt(rowNum, 1).toString();
+        String c = model.getValueAt(rowNum, 2).toString();
+        String d = model.getValueAt(rowNum, 3).toString();
         display.setText("   确认删除 " + a + " " + b + " " + c + " " + d + "?");
         panel2.add(button);
         panel2.add(cancelBtn);
@@ -96,11 +97,12 @@ public class DelWin extends JDialog implements ActionListener {
         panel1.setLayout(new GridLayout(1, 1));
         panel2 = new JPanel();
 
-        id = model.getValueAt(rowNum, 0).toString();
-        String a = model.getValueAt(rowNum, 1).toString();
-        String b = model.getValueAt(rowNum, 2).toString();
-        String c = model.getValueAt(rowNum, 3).toString();
-        String d = model.getValueAt(rowNum, 4).toString();
+        temp1 = model.getValueAt(rowNum, 1).toString();
+        temp2 = model.getValueAt(rowNum, 2).toString();
+        String a = model.getValueAt(rowNum, 0).toString();
+        String b = model.getValueAt(rowNum, 1).toString();
+        String c = model.getValueAt(rowNum, 2).toString();
+        String d = model.getValueAt(rowNum, 3).toString();
         display.setText("   确认删除 " + a + " " + b + " " + c + " " + d + "?");
         panel2.add(button);
         panel2.add(cancelBtn);
@@ -126,8 +128,22 @@ public class DelWin extends JDialog implements ActionListener {
 
                 ct = DriverManager.getConnection(url, user, passwd);
                 System.out.println("连接成功");
-                pstmt = ct.prepareStatement("delete from student where id = " + id);
-                pstmt.executeUpdate();
+                switch (index){
+                    case 0:
+                        pstmt = ct.prepareStatement("delete from student where sno = ?");
+                        pstmt.setString(1, temp1);
+                        pstmt.executeUpdate();break;
+                    case 1:
+                        pstmt = ct.prepareStatement("delete from course where cno = ?");
+                        pstmt.setString(1, temp1);
+                        pstmt.executeUpdate();break;
+                    case 2:
+                        pstmt = ct.prepareStatement("delete from score where sno = ? and cno = ?");
+                        pstmt.setString(1, temp1);
+                        pstmt.setString(2, temp2);
+                        pstmt.executeUpdate();break;
+                }
+
             }catch(Exception e){
                 e.printStackTrace();
             }finally{

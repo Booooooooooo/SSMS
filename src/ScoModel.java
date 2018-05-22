@@ -12,13 +12,19 @@ public class ScoModel extends AbstractTableModel {
     Connection ct = null;
     ResultSet rs = null;
 
+    //private int maxId;
+
+    //public int getMaxId(){
+    //    return maxId;
+    //}
+
     public void init(String sql){
         if(sql.equals("")){
             sql = "select * from score order by cno";
         }
 
         columnNames = new Vector();
-        columnNames.add("");
+        //columnNames.add("");
         columnNames.add("成绩");
         columnNames.add("学生姓名");
         columnNames.add("课程号");
@@ -37,8 +43,9 @@ public class ScoModel extends AbstractTableModel {
             rs = stat.executeQuery(sql);
 
             while(rs.next()){
+               // maxId = Math.max(maxId, rs.getInt(5));
                 Vector hang = new Vector();
-                hang.add(rs.getInt(5));
+                //hang.add(rs.getInt(5));
                 hang.add(rs.getDouble(1));
                 hang.add(rs.getString(2));
                 hang.add(rs.getString(3));

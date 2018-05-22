@@ -27,9 +27,10 @@ public class MainWindow extends JFrame implements ActionListener{
     private String[] colCourse = {"课程号", "课程名", "学分", "教师"};
     private String[] col;
 
-    private AddWin addWin;
+    private AddWindow addWin;
     private ModifyWin modifyWin;
     private DelWin delWin;
+    private SearchWin searchWin;
     private AbstractTableModel m;
     private Statement stat = null;
     private PreparedStatement ps;
@@ -137,18 +138,21 @@ public class MainWindow extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent event){
         Object obj = event.getSource();
-        addWin = new AddWin(index);
         if(obj == addButton){
-            addWin.setVisible(true);
-            //addWin = new AddWin(index);
-            //addWin.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            //stuModel.fireTableDataChanged();
-            //table.setModel(stuModel);
-            StuModel mo= new StuModel();
-            table.setModel(mo);//下一次点击按钮时才会更新表单
-            //table.validate();
-            //table.updateUI();
-            //update(getGraphics());
+            switch (index){
+                case 0:
+                    addWin = new AddWindow(this, true, index);
+                    stuModel = new StuModel();
+                    table.setModel(stuModel);break;
+                case 1:
+                    addWin = new AddWindow(this, true, index);
+                    courModel = new CourModel();
+                    table.setModel(courModel);break;
+                case 2:
+                    addWin = new AddWindow(this, true, index);
+                    scoModel = new ScoModel();
+                    table.setModel(scoModel);break;
+            }
         }else if(obj == deleteButton){
             int rowNum = table.getSelectedRow();
             if(rowNum == -1){
@@ -194,8 +198,21 @@ public class MainWindow extends JFrame implements ActionListener{
                     table.setModel(scoModel);break;
             }
 
-        }else{
-            //search
+        }else if(obj == searchButton){
+            switch (index){
+                case 0:
+                    searchWin = new SearchWin(this, true, index);
+                    stuModel = new StuModel();
+                    table.setModel(stuModel);break;
+                case 1:
+                    searchWin = new SearchWin(this, true, index);
+                    courModel = new CourModel();
+                    table.setModel(courModel);break;
+                case 2:
+                    searchWin = new SearchWin(this, true, index);
+                    scoModel = new ScoModel();
+                    table.setModel(scoModel);break;
+            }
         }
     }
     public static void main(String[] args){

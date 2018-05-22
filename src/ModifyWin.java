@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -23,13 +25,13 @@ public class ModifyWin extends JDialog implements ActionListener {
     private JPanel panel2;
     private JPanel panel3;
     private int index;
-    private String id;
+    private String temp1, temp2;
     private Font font = new Font("Dialog", Font.PLAIN, 15);
 
     public ModifyWin(Frame owner, boolean modal, StuModel model, int rowNum, int index){
         super(owner, "修改学生表", modal);
         this.index = index;
-        id = model.getValueAt(rowNum, 0).toString();
+        temp1 = model.getValueAt(rowNum, 0).toString();
         label1 = new JLabel("学号");
         label2 = new JLabel("姓名");
         label3 = new JLabel("性别");
@@ -39,13 +41,13 @@ public class ModifyWin extends JDialog implements ActionListener {
         label3.setFont(font);
         label4.setFont(font);
         text1 = new JTextField(10);
-        text1.setText(model.getValueAt(rowNum, 1).toString());
+        text1.setText(model.getValueAt(rowNum, 0).toString());
         text2 = new JTextField(10);
-        text2.setText(model.getValueAt(rowNum, 2).toString());
+        text2.setText(model.getValueAt(rowNum, 1).toString());
         text3 = new JTextField(10);
-        text3.setText(model.getValueAt(rowNum, 3).toString());
+        text3.setText(model.getValueAt(rowNum, 2).toString());
         text4 = new JTextField(10);
-        text4.setText(model.getValueAt(rowNum, 4).toString());
+        text4.setText(model.getValueAt(rowNum, 3).toString());
         text1.setFont(font);
         text2.setFont(font);
         text3.setFont(font);
@@ -84,7 +86,7 @@ public class ModifyWin extends JDialog implements ActionListener {
     public ModifyWin(Frame owner, boolean modal, CourModel model, int rowNum, int index){
         super(owner, "修改课程表", modal);
         this.index = index;
-        id = model.getValueAt(rowNum, 0).toString();
+        temp1 = model.getValueAt(rowNum, 0).toString();
         label1 = new JLabel("课程号");
         label2 = new JLabel("课程名");
         label3 = new JLabel("学分");
@@ -94,13 +96,13 @@ public class ModifyWin extends JDialog implements ActionListener {
         label3.setFont(font);
         label4.setFont(font);
         text1 = new JTextField(10);
-        text1.setText(model.getValueAt(rowNum, 1).toString());
+        text1.setText(model.getValueAt(rowNum, 0).toString());
         text2 = new JTextField(10);
-        text2.setText(model.getValueAt(rowNum, 2).toString());
+        text2.setText(model.getValueAt(rowNum, 1).toString());
         text3 = new JTextField(10);
-        text3.setText(model.getValueAt(rowNum, 3).toString());
+        text3.setText(model.getValueAt(rowNum, 2).toString());
         text4 = new JTextField(10);
-        text4.setText(model.getValueAt(rowNum, 4).toString());
+        text4.setText(model.getValueAt(rowNum, 3).toString());
         text1.setFont(font);
         text2.setFont(font);
         text3.setFont(font);
@@ -139,7 +141,8 @@ public class ModifyWin extends JDialog implements ActionListener {
     public ModifyWin(Frame owner, boolean modal, ScoModel model, int rowNum, int index){
         super(owner, "修改成绩表", modal);
         this.index = index;
-        id = model.getValueAt(rowNum, 0).toString();
+        temp1 = model.getValueAt(rowNum, 1).toString();
+        temp2 = model.getValueAt(rowNum, 2).toString();
         label1 = new JLabel("成绩");
         label2 = new JLabel("学号");
         label3 = new JLabel("课程号");
@@ -149,13 +152,13 @@ public class ModifyWin extends JDialog implements ActionListener {
         label3.setFont(font);
         label4.setFont(font);
         text1 = new JTextField(10);
-        text1.setText(model.getValueAt(rowNum, 1).toString());
+        text1.setText(model.getValueAt(rowNum, 0).toString());
         text2 = new JTextField(10);
-        text2.setText(model.getValueAt(rowNum, 2).toString());
+        text2.setText(model.getValueAt(rowNum, 1).toString());
         text3 = new JTextField(10);
-        text3.setText(model.getValueAt(rowNum, 3).toString());
+        text3.setText(model.getValueAt(rowNum, 2).toString());
         text4 = new JTextField(10);
-        text4.setText(model.getValueAt(rowNum, 4).toString());
+        text4.setText(model.getValueAt(rowNum, 3).toString());
         text1.setFont(font);
         text2.setFont(font);
         text3.setFont(font);
@@ -208,33 +211,50 @@ public class ModifyWin extends JDialog implements ActionListener {
                 String strsql = "";
                 switch (index){
                     case 0:
-                        strsql = "update student set sno = ?, name = ?, sex = ?, department = ? where id = "+ id;
-                        pstmt = ct.prepareStatement(strsql);
-                        pstmt.setString(1, text1.getText());
-                        pstmt.setString(2, text2.getText());
-                        pstmt.setString(3, text3.getText());
-                        pstmt.setString(4, text4.getText());
-                        pstmt.executeUpdate();
+                        strsql = "update student set sno = ?, name = ?, sex = ?, department = ? where sno = ?";
+                        try{
+                            pstmt = ct.prepareStatement(strsql);
+                            pstmt.setString(1, text1.getText());
+                            pstmt.setString(2, text2.getText());
+                            pstmt.setString(3, text3.getText());
+                            pstmt.setString(4, text4.getText());
+                            pstmt.setString(5, temp1);
+                            pstmt.executeUpdate();
+                        }catch (Exception e){
+                            JOptionPane.showMessageDialog(this, text1.getText() + "学生已存在");
+                        }
                         this.dispose();
+                        break;
                     case 1:
-                        strsql = "update course set cno = ?, name = ?, mark = " + text3.getText() + ", teacher = ? where id =" + id;
-                        pstmt = ct.prepareStatement(strsql);
-                        pstmt.setString(1, text1.getText());
-                        pstmt.setString(2, text2.getText());
-                        pstmt.setString(3, text4.getText());
-                        pstmt.executeUpdate();
-                        this.dispose();
+                        strsql = "update course set cno = ?, name = ?, mark = " + text3.getText() + ", teacher = ? where cno = ?";
+                        try{
+                            pstmt = ct.prepareStatement(strsql);
+                            pstmt.setString(1, text1.getText());
+                            pstmt.setString(2, text2.getText());
+                            pstmt.setString(3, text4.getText());
+                            pstmt.setString(4, temp1);
+                            pstmt.executeUpdate();
+                        }catch (Exception e){
+                            JOptionPane.showMessageDialog(this, text1.getText() + "课程已存在");
+                        }
+                        this.dispose();break;
                     case 2:
                         String flag = text4.getText();
                         if(flag.equals("否"))
-                            strsql = "update score set score = " + text1.getText() + ", sno = ?, cno = ?, flag = false where id = " + id;
+                            strsql = "update score set score = " + text1.getText() + ", sno = ?, cno = ?, flag = false where sno = ? and cno = ?";
                         else
-                            strsql = "update score set score = " + text1.getText() + ", sno = ?, cno = ?, flag = true where id = " + id;
-                        pstmt = ct.prepareStatement(strsql);
-                        pstmt.setString(1, text2.getText());
-                        pstmt.setString(2, text3.getText());
-                        pstmt.executeUpdate();
-                        this.dispose();
+                            strsql = "update score set score = " + text1.getText() + ", sno = ?, cno = ?, flag = true where sno = ? and cno = ? ";
+                        try{
+                            pstmt = ct.prepareStatement(strsql);
+                            pstmt.setString(1, text2.getText());
+                            pstmt.setString(2, text3.getText());
+                            pstmt.setString(3, temp1);
+                            pstmt.setString(4, temp2);
+                            pstmt.executeUpdate();
+                        }catch (Exception e){
+                            JOptionPane.showMessageDialog(this, text1.getText() + "的 " + text2.getText() + "成绩已存在");
+                        }
+                        this.dispose();break;
                 }
 
             }catch (Exception arg1){
