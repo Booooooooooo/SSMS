@@ -68,20 +68,36 @@ public class MainWindow extends JFrame implements ActionListener{
 
         String[][] rowData = {{}, {}, {}};
         table = new JTable();
-        stuModel = new StuModel();
-        scoModel = new ScoModel();
-        courModel = new CourModel();
+
         tableList.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent event) {
                 index = tableList.getSelectedIndex();
                 switch(index){
                     case 0:
-                        table.setModel(stuModel);break;
+                        try{
+                            stuModel = new StuModel();
+                            table.setModel(stuModel);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        break;
                     case 1:
-                        table.setModel(courModel);col = colCourse;break;
+                        try{
+                            courModel = new CourModel();
+                            table.setModel(courModel);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        break;
                     case 2:
-                        table.setModel(scoModel);break;
+                        try{
+                            scoModel = new ScoModel();
+                            table.setModel(scoModel);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        break;
                 }
 
                 update(getGraphics());
@@ -142,15 +158,27 @@ public class MainWindow extends JFrame implements ActionListener{
             switch (index){
                 case 0:
                     addWin = new AddWindow(this, true, index);
-                    stuModel = new StuModel();
+                    try{
+                        stuModel = new StuModel();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     table.setModel(stuModel);break;
                 case 1:
                     addWin = new AddWindow(this, true, index);
-                    courModel = new CourModel();
+                    try{
+                        courModel = new CourModel();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     table.setModel(courModel);break;
                 case 2:
                     addWin = new AddWindow(this, true, index);
-                    scoModel = new ScoModel();
+                    try{
+                        scoModel = new ScoModel();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     table.setModel(scoModel);break;
             }
         }else if(obj == deleteButton){
@@ -162,17 +190,29 @@ public class MainWindow extends JFrame implements ActionListener{
             switch (index){
                 case 0:
                     delWin = new DelWin(this, true, stuModel, rowNum, index);
-                    stuModel = new StuModel();
+                    try{
+                        stuModel = new StuModel();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     table.setModel(stuModel);
                     break;
                 case 1:
                     delWin = new DelWin(this, true, courModel, rowNum, index);
-                    courModel = new CourModel();
+                    try{
+                        courModel = new CourModel();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     table.setModel(courModel);
                     break;
                 case 2:
                     delWin = new DelWin(this, true, scoModel, rowNum, index);
-                    scoModel = new ScoModel();
+                    try{
+                        scoModel = new ScoModel();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     table.setModel(scoModel);
                     break;
             }
@@ -186,33 +226,32 @@ public class MainWindow extends JFrame implements ActionListener{
             switch(index){
                 case 0:
                     modifyWin = new ModifyWin(this, true, stuModel, rowNum, index);
-                    stuModel = new StuModel();
+                    try{
+                        stuModel = new StuModel();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     table.setModel(stuModel);break;
                 case 1:
                     modifyWin = new ModifyWin(this, true, courModel, rowNum, index);
-                    courModel = new CourModel();
+                    try{
+                        courModel = new CourModel();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     table.setModel(courModel);break;
                 case 2:
                     modifyWin = new ModifyWin(this, true, scoModel, rowNum,index);
-                    scoModel = new ScoModel();
+                    try{
+                        scoModel = new ScoModel();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                     table.setModel(scoModel);break;
             }
 
         }else if(obj == searchButton){
-            switch (index){
-                case 0:
-                    searchWin = new SearchWin(this, true, index);
-                    stuModel = new StuModel();
-                    table.setModel(stuModel);break;
-                case 1:
-                    searchWin = new SearchWin(this, true, index);
-                    courModel = new CourModel();
-                    table.setModel(courModel);break;
-                case 2:
-                    searchWin = new SearchWin(this, true, index);
-                    scoModel = new ScoModel();
-                    table.setModel(scoModel);break;
-            }
+            searchWin = new SearchWin(this, true, index);
         }
     }
     public static void main(String[] args){

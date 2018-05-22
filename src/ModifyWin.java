@@ -252,7 +252,7 @@ public class ModifyWin extends JDialog implements ActionListener {
                             pstmt.setString(4, temp2);
                             pstmt.executeUpdate();
                         }catch (Exception e){
-                            JOptionPane.showMessageDialog(this, text1.getText() + "的 " + text2.getText() + "成绩已存在");
+                            JOptionPane.showMessageDialog(this, "信息有误或" + text2.getText() + "的 " + text3.getText() + "成绩已存在");
                         }
                         this.dispose();break;
                 }

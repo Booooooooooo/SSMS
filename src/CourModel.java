@@ -1,3 +1,4 @@
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -5,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Vector;
 
-public class CourModel extends AbstractTableModel {
+public class CourModel extends AbstractTableModel{
     Vector rowData, columnNames;
 
     Statement stat = null;
@@ -17,7 +18,7 @@ public class CourModel extends AbstractTableModel {
     //    return maxId;
     //}
 
-    public void init(String sql){
+    public void init(String sql) throws Exception{
         if(sql.equals("")){
             sql = "select * from course order by cno";
         }
@@ -71,18 +72,19 @@ public class CourModel extends AbstractTableModel {
                 e.printStackTrace();
             }
         }
+        if(rowData.size() == 0 && !sql.equals("select * from course order by cno")){
+            throw new Exception();
+        }
     }
 
-    public void addStu(String sql){
 
-    }
 
-    public CourModel(String sql){
+    public CourModel(String sql) throws Exception{
         this.init(sql);
     }
 
-    public CourModel(){
-        this.init("");
+    public CourModel() throws Exception{
+        this.init("") ;
     }
 
     public int getRowCount(){

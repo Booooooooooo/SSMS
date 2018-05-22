@@ -20,7 +20,7 @@ public class StuModel extends AbstractTableModel {
     //public int getMax(){
     //    return maxId;
     //}
-    public void init(String sql){
+    public void init(String sql) throws Exception{
         if(sql.equals("")){
             sql = "select * from student order by sno";
         }
@@ -56,9 +56,9 @@ public class StuModel extends AbstractTableModel {
                 rowData.add(hang);
 
             }
-        }catch (Exception e){
+        }catch(Exception e){
             e.printStackTrace();
-        }finally {
+        }finally{
             try{
                 if(rs != null){
                     rs.close();
@@ -76,17 +76,17 @@ public class StuModel extends AbstractTableModel {
                 e.printStackTrace();
             }
         }
+        if(rowData.size() == 0 && !sql.equals("select * from student order by sno")){
+            throw new Exception();
+        }
     }
 
-    public void addStu(String sql){
 
-    }
-
-    public StuModel(String sql){
+    public StuModel(String sql) throws Exception{
         this.init(sql);
     }
 
-    public StuModel(){
+    public StuModel() throws Exception{
         this.init("");
     }
 

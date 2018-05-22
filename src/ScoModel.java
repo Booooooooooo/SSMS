@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.runtime.ECMAException;
+
 import javax.swing.table.AbstractTableModel;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,7 +20,7 @@ public class ScoModel extends AbstractTableModel {
     //    return maxId;
     //}
 
-    public void init(String sql){
+    public void init(String sql) throws Exception{
         if(sql.equals("")){
             sql = "select * from score order by cno";
         }
@@ -78,17 +80,20 @@ public class ScoModel extends AbstractTableModel {
                 e.printStackTrace();
             }
         }
+        if(rowData.size() == 0 && !sql.equals("select * from score order by cno")){
+            throw new Exception();
+        }
     }
 
     public void addSco(String sql){
 
     }
 
-    public ScoModel(String sql){
+    public ScoModel(String sql) throws Exception{
         this.init(sql);
     }
 
-    public ScoModel(){
+    public ScoModel() throws Exception{
         this.init("");
     }
 

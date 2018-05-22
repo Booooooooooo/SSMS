@@ -105,46 +105,46 @@ public class SearchWin extends JDialog implements ActionListener {
                 case 0:
                     strsql += "student where ";
                     if(!a.trim().equals("")){
-                        strsql += "sno = " + a;
+                        strsql += "sno = '" + a + "'";
                         first = false;
                     }
                     if(!b.trim().equals("")){
                         if(first){
-                            strsql += "name = " + b;
+                            strsql += "name = '" + b + "'";
                             first = false;
                         }else{
-                            strsql += "and name = " +b;
+                            strsql += "and name = '" +b + "'";
                         }
                     }
                     if(!c.trim().equals("")){
                         if(first){
-                            strsql += "sex = " + c;
+                            strsql += "sex = '" + c + "'";
                             first = false;
                         }else{
-                            strsql += "and sex = " + c;
+                            strsql += "and sex = '" + c + "'";
                         }
                     }
                     if(!d.trim().equals("")){
                         if(first){
-                            strsql += "department = " + d;
+                            strsql += "department = '" + d + "'";
                             first = false;
                         }else{
-                            strsql += "and department = " + d;
+                            strsql += "and department = '" + d + "'";
                         }
                     }
                     break;
                 case 1:
                     strsql += "course where ";
                     if(!a.trim().equals("")){
-                        strsql += "cno = " + a;
+                        strsql += "cno = '" + a + "'";
                         first = false;
                     }
                     if(!b.trim().equals("")){
                         if(first){
-                            strsql += "name = " + b;
+                            strsql += "name = '" + b + "'";
                             first = false;
                         }else{
-                            strsql += "and name = " +b;
+                            strsql += "and name = '" +b + "'";
                         }
                     }
                     if(!c.trim().equals("")){
@@ -157,10 +157,10 @@ public class SearchWin extends JDialog implements ActionListener {
                     }
                     if(!d.trim().equals("")){
                         if(first){
-                            strsql += " teacher = " + d;
+                            strsql += " teacher = '" + d + "'";
                             first = false;
                         }else{
-                            strsql += "and teacher = " + d;
+                            strsql += "and teacher = '" + d + "'";
                         }
                     }
                     break;
@@ -172,24 +172,24 @@ public class SearchWin extends JDialog implements ActionListener {
                     }
                     if(!b.trim().equals("")){
                         if(first){
-                            strsql += "sno = " + b;
+                            strsql += "sno = '" + b + "'";
                             first = false;
                         }else{
-                            strsql += "and sno = " +b;
+                            strsql += "and sno = '" +b + "'";
                         }
                     }
                     if(!c.trim().equals("")){
                         if(first){
-                            strsql += "cno  = " + c;
+                            strsql += "cno  = '" + c + "'";
                             first = false;
                         }else{
-                            strsql += "and cno = " + c;
+                            strsql += "and cno = '" + c + "'";
                         }
                     }
                     if(!d.trim().equals("")){
                         if(d.equals("否")){
                             d = "false";
-                        }else{
+                        }else if(d.equals("是")){
                             d = "true";
                         }
                         if(first){
