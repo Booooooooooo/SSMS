@@ -26,12 +26,13 @@ public class SearchWin extends JDialog implements ActionListener {
     private Font font = new Font("Dialog", Font.PLAIN, 15);
     private SearchRes searchRes;
     private Frame owner;
+    private String sno;
 
-
-    public SearchWin(Frame owner, boolean modal,int index){
-        super(owner, "添加", modal);
+    public SearchWin(Frame owner, boolean modal,int index, String sno){
+        super(owner, "查找", modal);
         this.index = index;
         this.owner = owner;
+        this.sno = sno;
         //this.count = count + 1;
         switch (index){
             case 0:
@@ -101,6 +102,7 @@ public class SearchWin extends JDialog implements ActionListener {
             String d = text4.getText();
             boolean first = true;
             String strsql = "select  * from ";
+            boolean flag = true;
             switch (index){
                 case 0:
                     strsql += "student where ";
@@ -166,16 +168,20 @@ public class SearchWin extends JDialog implements ActionListener {
                     break;
                 case 2:
                     strsql += "score where ";
-                    if(!a.trim().equals("")){
-                        strsql += "score = " + a;
+                    if(!sno.equals("0")){
+                        strsql += "sno = '" + sno + "'";
+                        first = false;
+                        if(!b.equals(sno) && !b.trim().equals("")) flag = false;
+                    }else if(!b.trim().equals("")){
+                        strsql += "sno = '" + b + "'";
                         first = false;
                     }
-                    if(!b.trim().equals("")){
+                    if(!a.trim().equals("")){
                         if(first){
-                            strsql += "sno = '" + b + "'";
+                            strsql += "score = " + a;
                             first = false;
                         }else{
-                            strsql += "and sno = '" +b + "'";
+                            strsql += "and score = " + a;
                         }
                     }
                     if(!c.trim().equals("")){
@@ -200,7 +206,11 @@ public class SearchWin extends JDialog implements ActionListener {
                         }
                     }
             }
-            searchRes = new SearchRes(this, true, index, strsql);
+            if(flag){
+                searchRes = new SearchRes(this, true, index, strsql, sno);
+            }else{
+                JOptionPane.showMessageDialog(this, "对不起查询失败");
+            }
 
         }else if(event.getSource() == cancelBtn){
             this.dispose();

@@ -34,7 +34,7 @@ public class CourModel extends AbstractTableModel{
         try{
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("加载成功");
-            String url = "jdbc:mysql://localhost/studentsystem";
+            String url = "jdbc:mysql://localhost/studentsystem?useSSL=false&serverTimezone=GMT%2B8";
             String user = "root";
             String passwd = "wyb980401";
 

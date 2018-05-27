@@ -99,7 +99,7 @@ public class AddWindow extends JDialog implements ActionListener {
 
             try{
                 Class.forName("com.mysql.jdbc.Driver");
-                String url = "jdbc:mysql://localhost/studentsystem";
+                String url = "jdbc:mysql://localhost/studentsystem?useSSL=false&serverTimezone=GMT%2B8";
                 String user = "root";
                 String passwd = "wyb980401";
                 ct = DriverManager.getConnection(url, user, passwd);
@@ -137,15 +137,16 @@ public class AddWindow extends JDialog implements ActionListener {
                     case 2:
                         String flag = text4.getText();
                         if(flag.equals("否"))
-                            strsql = "insert into score values (" + text1.getText() + "?, ?, false)";
+                            strsql = "insert into score values (" + text1.getText() + ",?, ?, false)";
                         else
-                            strsql = "insert into score values (" + text1.getText() + "?, ?, true)";
+                            strsql = "insert into score values (" + text1.getText() + ",?, ?, true)";
                         try{
                             pstmt = ct.prepareStatement(strsql);
                             pstmt.setString(1, text2.getText());
                             pstmt.setString(2, text3.getText());
                             pstmt.executeUpdate();
                         }catch (Exception e){
+                            e.printStackTrace();
                             JOptionPane.showMessageDialog(this, "信息有误或" + text2.getText() + "的 " + text3.getText() + "成绩已存在");
                         }
                         this.dispose();

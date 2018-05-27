@@ -1,3 +1,5 @@
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
@@ -7,11 +9,14 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class MainWindow extends JFrame implements ActionListener{
+    private String Sno;//0为老师
     private List tableList;
     private JButton addButton;
     private JButton deleteButton;
     private JButton modifyButton;
     private JButton searchButton;
+    private JMenuBar menuBar;
+    private JMenuItem loginMenu;
     private Box listBox;
     private Box buttonBox;
     private JPanel panel;
@@ -41,24 +46,45 @@ public class MainWindow extends JFrame implements ActionListener{
     //private JPanel buttonPanel;
     //String id;
 
-    public MainWindow()
+    public MainWindow(String sno)
     {
         super("主窗口");
-        setSize(1000, 1000);
-        setVisible(true);
+        setSize(700, 600);
+        Sno = sno;
+        menuBar = new JMenuBar();
+        loginMenu = new JMenuItem("退出登录");
+        loginMenu.setFont(new Font("宋体", Font.PLAIN, 14));
+        menuBar.add(loginMenu);
+        loginMenu.addActionListener(this);
+        this.setJMenuBar(menuBar);
+
         Dimension screenSize = getToolkit().getScreenSize();
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
+        JPanel wholePanel = new JPanel(){
+            protected void paintComponent(Graphics g){
+                ImageIcon icon = new ImageIcon("bg.jpg");
+                Image img = icon.getImage();
+                g.drawImage(img, 0, 0, 1000, 1000, icon.getImageObserver());
+            }
+        };
+        setContentPane(wholePanel);
+        wholePanel.setSize(600, 800);
+        JLabel title = new JLabel("学生信息管理系统");
+        title.setFont(new Font("宋体", Font.BOLD, 26));
+        title.setForeground(Color.white);
 
         headFont = new Font("Dialog", 0, 20);
 
         panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); //尚未修改 用于测试
-        setContentPane(panel);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.setBackground(null);
+        panel.setOpaque(false);
+        //setContentPane(panel);
 
         listBox = Box.createVerticalBox();
-        listBox.setSize(150, 1000);
+        listBox.setSize(150, 700);
         tableList = new List(3);
-        tableList.setSize(150, 1000);
+        tableList.setSize(150, 700);
         tableList.setFont(headFont);
         tableList.add("学生表");
         tableList.add("课程表");
@@ -68,6 +94,14 @@ public class MainWindow extends JFrame implements ActionListener{
 
         String[][] rowData = {{}, {}, {}};
         table = new JTable();
+        table.setSize(1000, 700);
+        try{
+            table.setModel(new StuModel());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setSize(400, 600);
 
         tableList.addActionListener(new ActionListener() {
             @Override
@@ -92,7 +126,7 @@ public class MainWindow extends JFrame implements ActionListener{
                         break;
                     case 2:
                         try{
-                            scoModel = new ScoModel();
+                            scoModel = new ScoModel(Sno);
                             table.setModel(scoModel);
                         }catch (Exception e){
                             e.printStackTrace();
@@ -136,126 +170,159 @@ public class MainWindow extends JFrame implements ActionListener{
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         buttonPanel.setSize(getWidth() - 150, 50);
-        buttonPanel.add(Box.createHorizontalStrut((getWidth() - 670) / 2));
+        buttonPanel.add(Box.createHorizontalStrut(30));
         buttonPanel.add(buttonBox);
+        buttonPanel.setBackground(null);
+        buttonPanel.setOpaque(false);
         //panel.add(buttonBox);
 
         JPanel panelr = new JPanel();
+        panelr.setBackground(null);
+        panelr.setOpaque(false);
+
         panelr.setLayout(new BorderLayout());
-        panelr.add(table.getTableHeader(), BorderLayout.NORTH);
-        panelr.add(table, BorderLayout.CENTER);
+        //panelr.add(table.getTableHeader(), BorderLayout.NORTH);
+        //panelr.add(table, BorderLayout.CENTER);
+        panelr.add(scrollPane, BorderLayout.CENTER);
         panelr.add(buttonPanel, BorderLayout.SOUTH);
         panel.add(listBox);
         panel.add(Box.createHorizontalStrut(10));
         panel.add(panelr);
         panel.add(Box.createHorizontalStrut(10));
+        panel.setSize(1000, 400);
 
+        //wholePanel.setLayout(new BoxLayout(wholePanel, BoxLayout.Y_AXIS));
+        wholePanel.add(title, BorderLayout.NORTH);
+        wholePanel.add(panel, BorderLayout.CENTER);
+        //wholePanel.add(Box.createVerticalStrut(100));
+
+        setVisible(true);
     }
 
     public void actionPerformed(ActionEvent event){
         Object obj = event.getSource();
         if(obj == addButton){
-            switch (index){
-                case 0:
-                    addWin = new AddWindow(this, true, index);
-                    try{
-                        stuModel = new StuModel();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    table.setModel(stuModel);break;
-                case 1:
-                    addWin = new AddWindow(this, true, index);
-                    try{
-                        courModel = new CourModel();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    table.setModel(courModel);break;
-                case 2:
-                    addWin = new AddWindow(this, true, index);
-                    try{
-                        scoModel = new ScoModel();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    table.setModel(scoModel);break;
+            if(!Sno.equals("0")){
+                JOptionPane.showMessageDialog(this, "对不起，您没有添加权限");
+            }else{
+                switch (index){
+                    case 0:
+                        addWin = new AddWindow(this, true, index);
+                        try{
+                            stuModel = new StuModel();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        table.setModel(stuModel);break;
+                    case 1:
+                        addWin = new AddWindow(this, true, index);
+                        try{
+                            courModel = new CourModel();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        table.setModel(courModel);break;
+                    case 2:
+                        addWin = new AddWindow(this, true, index);
+                        try{
+                            scoModel = new ScoModel(Sno);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        table.setModel(scoModel);break;
+                }
             }
         }else if(obj == deleteButton){
-            int rowNum = table.getSelectedRow();
-            if(rowNum == -1){
-                JOptionPane.showMessageDialog(this, "请选中一行");
-                return;
+            if(!Sno.equals("0")){
+                JOptionPane.showMessageDialog(this, "对不起，您没有删除权限");
+            }else{
+                int rowNum = table.getSelectedRow();
+                if(rowNum == -1){
+                    JOptionPane.showMessageDialog(this, "请选中一行");
+                    return;
+                }
+                switch (index){
+                    case 0:
+                        delWin = new DelWin(this, true, stuModel, rowNum, index);
+                        try{
+                            stuModel = new StuModel();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        table.setModel(stuModel);
+                        break;
+                    case 1:
+                        delWin = new DelWin(this, true, courModel, rowNum, index);
+                        try{
+                            courModel = new CourModel();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        table.setModel(courModel);
+                        break;
+                    case 2:
+                        delWin = new DelWin(this, true, scoModel, rowNum, index);
+                        try{
+                            scoModel = new ScoModel(Sno);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        table.setModel(scoModel);
+                        break;
+                }
             }
-            switch (index){
-                case 0:
-                    delWin = new DelWin(this, true, stuModel, rowNum, index);
-                    try{
-                        stuModel = new StuModel();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    table.setModel(stuModel);
-                    break;
-                case 1:
-                    delWin = new DelWin(this, true, courModel, rowNum, index);
-                    try{
-                        courModel = new CourModel();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    table.setModel(courModel);
-                    break;
-                case 2:
-                    delWin = new DelWin(this, true, scoModel, rowNum, index);
-                    try{
-                        scoModel = new ScoModel();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    table.setModel(scoModel);
-                    break;
-            }
-
         }else if(obj == modifyButton){
-            int rowNum = table.getSelectedRow();
-            if(rowNum == -1){
-                JOptionPane.showMessageDialog(this, "请选择一行");
-                return;
+            if(!Sno.equals("0")){
+                JOptionPane.showMessageDialog(this, "对不起，您没有修改权限");
+            }else{
+                int rowNum = table.getSelectedRow();
+                if(rowNum == -1){
+                    JOptionPane.showMessageDialog(this, "请选择一行");
+                    return;
+                }
+                switch(index){
+                    case 0:
+                        modifyWin = new ModifyWin(this, true, stuModel, rowNum, index);
+                        try{
+                            stuModel = new StuModel();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        table.setModel(stuModel);break;
+                    case 1:
+                        modifyWin = new ModifyWin(this, true, courModel, rowNum, index);
+                        try{
+                            courModel = new CourModel();
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        table.setModel(courModel);break;
+                    case 2:
+                        modifyWin = new ModifyWin(this, true, scoModel, rowNum,index);
+                        try{
+                            scoModel = new ScoModel(Sno);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        table.setModel(scoModel);break;
+                }
             }
-            switch(index){
-                case 0:
-                    modifyWin = new ModifyWin(this, true, stuModel, rowNum, index);
-                    try{
-                        stuModel = new StuModel();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    table.setModel(stuModel);break;
-                case 1:
-                    modifyWin = new ModifyWin(this, true, courModel, rowNum, index);
-                    try{
-                        courModel = new CourModel();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    table.setModel(courModel);break;
-                case 2:
-                    modifyWin = new ModifyWin(this, true, scoModel, rowNum,index);
-                    try{
-                        scoModel = new ScoModel();
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    table.setModel(scoModel);break;
-            }
-
         }else if(obj == searchButton){
-            searchWin = new SearchWin(this, true, index);
+            //System.out.println(Sno);
+            searchWin = new SearchWin(this, true, index, Sno);
+        }else if(obj == loginMenu){
+            int re = JOptionPane.showConfirmDialog(this, "确认退出登录？", "退出登录", JOptionPane.YES_NO_OPTION);
+            if(re == 0){
+                LoginWin win = new LoginWin();
+                win.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                this.dispose();
+            }
         }
     }
+
+
     public static void main(String[] args){
-        MainWindow window = new MainWindow();
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        MainWindow win = new MainWindow("0");
+        win.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }

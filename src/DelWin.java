@@ -122,7 +122,7 @@ public class DelWin extends JDialog implements ActionListener {
             ResultSet rs = null;
             try{
                 Class.forName("com.mysql.jdbc.Driver");
-                String url = "jdbc:mysql://localhost/studentsystem";
+                String url = "jdbc:mysql://localhost/studentsystem?useSSL=false&serverTimezone=GMT%2B8";
                 String user = "root";
                 String passwd = "wyb980401";
 

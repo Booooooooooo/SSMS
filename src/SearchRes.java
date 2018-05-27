@@ -8,14 +8,19 @@ public class SearchRes extends JDialog {
     private ScoModel scoModel;
     private CourModel courModel;
     private int index;
-    private Font font = new Font("Dialog", Font.PLAIN, 15);
+    private Font font = new Font("Dialog", Font.PLAIN, 18);
 
-    public SearchRes(Dialog owner, boolean modal, int index, String strsql){
+    public SearchRes(Dialog owner, boolean modal, int index, String strsql, String sno){
         super(owner, "查询结果", modal);
         this.index = index;
         table = new JTable();
         table.setFont(font);
-        add(table);
+        table.getTableHeader().setFont(font);
+        table.setRowHeight(20);
+        JScrollPane scrollPane = new JScrollPane(table);
+        //add(table.getTableHeader(), BorderLayout.NORTH);
+        //add(table);
+        add(scrollPane);
         setSize(500, 500);
         Dimension screenSize = getToolkit().getScreenSize();
         setLocation(screenSize.width / 2 - getWidth() / 2, screenSize.height / 2 - getHeight() / 2);
@@ -31,7 +36,7 @@ public class SearchRes extends JDialog {
                     table.setModel(courModel);
                     break;
                 case 2:
-                    scoModel = new ScoModel(strsql);
+                    scoModel = new ScoModel(strsql, sno);
                     table.setModel(scoModel);
                     break;
             }

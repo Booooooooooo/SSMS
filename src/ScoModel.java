@@ -13,16 +13,13 @@ public class ScoModel extends AbstractTableModel {
     Statement stat = null;
     Connection ct = null;
     ResultSet rs = null;
-
-    //private int maxId;
-
-    //public int getMaxId(){
-    //    return maxId;
-    //}
+    private String sno;
 
     public void init(String sql) throws Exception{
-        if(sql.equals("")){
+        if(sql.equals("") && sno.equals("0")){
             sql = "select * from score order by cno";
+        }else if(sql.equals("")){
+            sql = "select * from score where sno = '" + sno + "' order by cno";
         }
 
         columnNames = new Vector();
@@ -36,7 +33,7 @@ public class ScoModel extends AbstractTableModel {
         try{
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("加载成功");
-            String url = "jdbc:mysql://localhost/studentsystem";
+            String url = "jdbc:mysql://localhost/studentsystem?useSSL=false&serverTimezone=GMT%2B8";
             String user = "root";
             String passwd = "wyb980401";
 
@@ -80,7 +77,8 @@ public class ScoModel extends AbstractTableModel {
                 e.printStackTrace();
             }
         }
-        if(rowData.size() == 0 && !sql.equals("select * from score order by cno")){
+        if(rowData.size() == 0 && (!sql.equals("select * from score order by cno") || !sql.equals("select * from score where sno = '" + sno + "' order by cno"))){
+            System.out.println(sql);
             throw new Exception();
         }
     }
@@ -89,11 +87,13 @@ public class ScoModel extends AbstractTableModel {
 
     }
 
-    public ScoModel(String sql) throws Exception{
+    public ScoModel(String sql, String sno) throws Exception{
+        this.sno = sno;
         this.init(sql);
     }
 
-    public ScoModel() throws Exception{
+    public ScoModel(String sno) throws Exception{
+        this.sno = sno;
         this.init("");
     }
 
