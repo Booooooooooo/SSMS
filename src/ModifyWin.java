@@ -220,7 +220,16 @@ public class ModifyWin extends JDialog implements ActionListener {
                             pstmt.setString(4, text4.getText());
                             pstmt.setString(5, temp1);
                             pstmt.executeUpdate();
+                            if(!text1.getText().equals("")){
+                                strsql = "update user_pass set username = ?, password = ? where username = ?";
+                                pstmt = ct.prepareStatement(strsql);
+                                pstmt.setString(1, text1.getText());
+                                pstmt.setString(2, text1.getText().substring(text1.getText().length() - 3, text1.getText().length()));
+                                pstmt.setString(3, temp1);
+                                pstmt.executeUpdate();
+                            }
                         }catch (Exception e){
+                            e.printStackTrace();
                             JOptionPane.showMessageDialog(this, text1.getText() + "学生已存在");
                         }
                         this.dispose();

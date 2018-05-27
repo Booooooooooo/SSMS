@@ -16,7 +16,9 @@ public class MainWindow extends JFrame implements ActionListener{
     private JButton modifyButton;
     private JButton searchButton;
     private JMenuBar menuBar;
+    private JMenu menu;
     private JMenuItem loginMenu;
+    private JMenuItem modifyMenu;
     private Box listBox;
     private Box buttonBox;
     private JPanel panel;
@@ -52,10 +54,19 @@ public class MainWindow extends JFrame implements ActionListener{
         setSize(700, 600);
         Sno = sno;
         menuBar = new JMenuBar();
+        menuBar.setBackground(null);
+        menuBar.setOpaque(false);
+        menu = new JMenu("菜单");
+        menu.setFont(new Font("宋体", Font.PLAIN, 18));
+        menuBar.add(menu);
         loginMenu = new JMenuItem("退出登录");
-        loginMenu.setFont(new Font("宋体", Font.PLAIN, 14));
-        menuBar.add(loginMenu);
+        loginMenu.setFont(new Font("宋体", Font.PLAIN, 18));
+        menu.add(loginMenu);
         loginMenu.addActionListener(this);
+        modifyMenu = new JMenuItem("修改密码");
+        modifyMenu.setFont(new Font("宋体", Font.PLAIN, 18));
+        menu.add(modifyMenu);
+        modifyMenu.addActionListener(this);
         this.setJMenuBar(menuBar);
 
         Dimension screenSize = getToolkit().getScreenSize();
@@ -96,7 +107,8 @@ public class MainWindow extends JFrame implements ActionListener{
         table = new JTable();
         table.setSize(1000, 700);
         try{
-            table.setModel(new StuModel());
+            stuModel = new StuModel();
+            table.setModel(stuModel);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -317,6 +329,9 @@ public class MainWindow extends JFrame implements ActionListener{
                 win.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 this.dispose();
             }
+        }else if(obj == modifyMenu){
+            ModifyPass mod = new ModifyPass(Sno);
+            mod.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         }
     }
 

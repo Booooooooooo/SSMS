@@ -5,10 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Vector;
 
 public class LoginWin extends JFrame implements ActionListener {
@@ -100,65 +97,74 @@ public class LoginWin extends JFrame implements ActionListener {
         if(event.getSource() == confirmBtn){
             String us = userName.getText();
             String ps = String.valueOf(password.getPassword());
-            //System.out.println(ps);
-            if(us.equals(teacher)){
-                if(ps.equals(tPass)){
-                    mainWindow = new MainWindow("0");
-                    mainWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-                    this.dispose();
-                }else{
-                    JOptionPane.showMessageDialog(null, "密码错误");
+            Connection ct = null;
+            PreparedStatement pstmt = null;
+            ResultSet rs = null;
+
+            String sql = "select username from user_pass where username = '" + us + "'";
+            try{
+                Class.forName("com.mysql.jdbc.Driver");
+                System.out.println("加载成功");
+                String url = "jdbc:mysql://localhost/studentsystem?useSSL=false&serverTimezone=GMT%2B8";
+                String user = "root";
+                String passwd = "wyb980401";
+
+                ct = DriverManager.getConnection(url, user, passwd);
+                stat = ct.createStatement();
+                rs = stat.executeQuery(sql);
+
+                boolean flag = false;
+                while(rs.next()){
+                    flag = true;
                 }
-            }
-            else{
-                String sql = "select sno from student where sno = '" + us + "'";
-                try{
-                    Class.forName("com.mysql.jdbc.Driver");
-                    System.out.println("加载成功");
-                    String url = "jdbc:mysql://localhost/studentsystem?useSSL=false&serverTimezone=GMT%2B8";
-                    String user = "root";
-                    String passwd = "wyb980401";
-
-                    ct = DriverManager.getConnection(url, user, passwd);
-                    stat = ct.createStatement();
-                    rs = stat.executeQuery(sql);
-
-                    boolean flag = false;
-                    while(rs.next()){
-                        flag = true;
-                    }
-                    if(flag){
-                        //System.out.println(us.substring(us.length() - 4, us.length() - 1));
-                        if(ps.equals(us.substring(us.length() - 3, us.length()))){
+                if(flag){
+                    try{
+                        sql = "select password from user_pass where username = '" + us + "'";
+                        pstmt = ct.prepareStatement(sql);
+                        rs = pstmt.executeQuery();
+                        boolean psflag = false;
+                        while(rs.next()){
+                            if(rs.getString("password").equals(ps)){
+                                psflag = true;
+                            }
+                        }
+                        if(psflag){
                             mainWindow = new MainWindow(us);
                             mainWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                             this.dispose();
                         }else{
+                            password.setText("");
                             JOptionPane.showMessageDialog(this, "密码错误");
-                        }
-                    }else{
-                        JOptionPane.showMessageDialog(this, "用户名不存在");
-                    }
-                }catch(Exception e){
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "用户名不存在");
-                }finally{
-                    try{
-                        if(rs != null){
-                            rs.close();
-                            rs = null;
-                        }
-                        if(stat!= null){
-                            stat.close();
-                            stat = null;
-                        }
-                        if(ct != null){
-                            ct.close();
-                            ct = null;
                         }
                     }catch(Exception e){
                         e.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "登录失败");
                     }
+                    //System.out.println(us.substring(us.length() - 4, us.length() - 1));
+                }else{
+                    JOptionPane.showMessageDialog(this, "用户名不存在");
+                    password.setText("");
+                    userName.setText("");
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "登录失败");
+            }finally{
+                try{
+                    if(rs != null){
+                        rs.close();
+                        rs = null;
+                    }
+                    if(stat!= null){
+                        stat.close();
+                        stat = null;
+                    }
+                    if(ct != null){
+                        ct.close();
+                        ct = null;
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
             }
 

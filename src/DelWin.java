@@ -132,6 +132,9 @@ public class DelWin extends JDialog implements ActionListener {
                     case 0:
                         pstmt = ct.prepareStatement("delete from student where sno = ?");
                         pstmt.setString(1, temp1);
+                        pstmt.executeUpdate();
+                        pstmt = ct.prepareStatement("delete from user_pass where username = ?");
+                        pstmt.setString(1, temp1);
                         pstmt.executeUpdate();break;
                     case 1:
                         pstmt = ct.prepareStatement("delete from course where cno = ?");

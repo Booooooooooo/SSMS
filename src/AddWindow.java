@@ -116,6 +116,11 @@ public class AddWindow extends JDialog implements ActionListener {
                             pstmt.setString(3, text3.getText());
                             pstmt.setString(4, text4.getText());
                             pstmt.executeUpdate();
+                            strsql = "insert into user_pass values(?, ?)";
+                            pstmt = ct.prepareStatement(strsql);
+                            pstmt.setString(1, text1.getText());
+                            pstmt.setString(2, text1.getText().substring(text1.getText().length() - 3, text1.getText().length()));
+                            pstmt.executeUpdate();
                         }catch (Exception e){
                             JOptionPane.showMessageDialog(this, text1.getText() + "学生已存在");
                         }
