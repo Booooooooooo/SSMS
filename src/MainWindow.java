@@ -52,10 +52,11 @@ public class MainWindow extends JFrame implements ActionListener{
     {
         super("主窗口");
         setSize(700, 600);
-        Sno = sno;
+        if(sno.equals("admin"))Sno = "0";
+        else Sno = sno;
         menuBar = new JMenuBar();
-        menuBar.setBackground(null);
-        menuBar.setOpaque(false);
+        //menuBar.setBackground(null);
+        //menuBar.setOpaque(false);
         menu = new JMenu("菜单");
         menu.setFont(new Font("宋体", Font.PLAIN, 18));
         menuBar.add(menu);
@@ -197,15 +198,17 @@ public class MainWindow extends JFrame implements ActionListener{
         //panelr.add(table, BorderLayout.CENTER);
         panelr.add(scrollPane, BorderLayout.CENTER);
         panelr.add(buttonPanel, BorderLayout.SOUTH);
+        panel.add(Box.createHorizontalStrut(20));
         panel.add(listBox);
         panel.add(Box.createHorizontalStrut(10));
         panel.add(panelr);
-        panel.add(Box.createHorizontalStrut(10));
-        panel.setSize(1000, 400);
+        panel.add(Box.createHorizontalStrut(20));
+        panel.setSize(1100, 500);
 
         //wholePanel.setLayout(new BoxLayout(wholePanel, BoxLayout.Y_AXIS));
         wholePanel.add(title, BorderLayout.NORTH);
         wholePanel.add(panel, BorderLayout.CENTER);
+        //wholePanel.add(Box.createVerticalStrut(20), BorderLayout.SOUTH);
         //wholePanel.add(Box.createVerticalStrut(100));
 
         setVisible(true);

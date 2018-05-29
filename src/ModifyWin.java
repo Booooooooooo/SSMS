@@ -221,12 +221,26 @@ public class ModifyWin extends JDialog implements ActionListener {
                             pstmt.setString(5, temp1);
                             pstmt.executeUpdate();
                             if(!text1.getText().equals("")){
-                                strsql = "update user_pass set username = ?, password = ? where username = ?";
+                                strsql = "select password from user_pass where username = ?";
                                 pstmt = ct.prepareStatement(strsql);
-                                pstmt.setString(1, text1.getText());
-                                pstmt.setString(2, text1.getText().substring(text1.getText().length() - 3, text1.getText().length()));
-                                pstmt.setString(3, temp1);
-                                pstmt.executeUpdate();
+                                pstmt.setString(1, temp1);
+                                rs = pstmt.executeQuery();
+                                while(rs.next()){
+                                    if(rs.getString("password").equals(temp1.substring(temp1.length() - 3, temp1.length()))){
+                                        strsql = "update user_pass set username = ?, password = ? where username = ?";
+                                        pstmt = ct.prepareStatement(strsql);
+                                        pstmt.setString(1, text1.getText());
+                                        pstmt.setString(2, text1.getText().substring(text1.getText().length() - 3, text1.getText().length()));
+                                        pstmt.setString(3, temp1);
+                                        pstmt.executeUpdate();
+                                    }else{
+                                        strsql = "update user_pass set username = ? where username = ?";
+                                        pstmt = ct.prepareStatement(strsql);
+                                        pstmt.setString(1, text1.getText());
+                                        pstmt.setString(2, temp1);
+                                        pstmt.executeUpdate();
+                                    }
+                                }
                             }
                         }catch (Exception e){
                             e.printStackTrace();
